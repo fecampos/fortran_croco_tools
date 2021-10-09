@@ -1,0 +1,15 @@
+#!/bin/bash
+
+NETCDFLIB="-L/usr/local/netcdf-fortran/4.4.3/gnu4.8.5/lib64/ -lnetcdff"
+
+NETCDFINC="-I/usr/local/netcdf-fortran/4.4.3/gnu4.8.5/include/"
+
+CPP1="-cpp -O3 -ffpe-trap=zero -mcmodel=medium -traditional -DLinux -openmp"
+
+export OMP_NUM_THREADS=48
+
+gfortran $CPP1 param.f90 get_depths.f90 vinterp.f90 write_vinterp_output.f90 main_vinterp.f90 -o result $NETCDFLIB $NETCDFINC
+
+./result
+
+rm result *.mod
